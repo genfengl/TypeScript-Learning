@@ -5,7 +5,7 @@ class Department {
     //* so that only the methods in the class can access it
     private employees: string[] = []
 
-    constructor(private id: string, public name: string) {
+    constructor(private readonly id: string, public name: string) {
         this.id = id
         this.name = name
     }
@@ -24,15 +24,48 @@ class Department {
     }
 }
 
-const accounting = new Department('d1', 'Accounting')
+//  can only inherit from one class
+//  have to add super when adding constructor in class that are inherited
+class ITDepartment extends Department {
+     constructor(id: string, public admins: string[]) {
+        // call super first before using 'this'
+        super(id, 'IT')
+        this.admins = admins
+     }
+}
 
-accounting.addEmployee('Max')
-accounting.addEmployee('Manu')
+class AccountingDepartment extends Department {
+    constructor(id: string, private reports: string[]) {
+        super(id, 'Accounting')
+    }
+
+    addReport(text: string) {
+        this.reports.push(text)
+    }
+
+    printReports() {
+        console.log(this.reports);        
+    }
+}
+
+const it = new ITDepartment('d1', ['Max'])
+
+it.addEmployee('Max')
+it.addEmployee('Manu')
 
 // accounting.employees[2] = 'Anna'
 
-accounting.describe()
-accounting.printEmployeeInformation()
+it.describe()
+it.printEmployeeInformation()
+
+console.log(it);
+
+
+const accounting = new AccountingDepartment('d2', [])
+
+accounting.addReport('Something went wrong...')
+accounting.printReports()
+
 
 // const accountingCopy = { name: 's', describe: accounting.describe }
 
