@@ -1,15 +1,17 @@
 class Department {
-    name: string;
+    // private id: string
+    // private name: string;
     //* private means employees can only be accessed inside the class
     //* so that only the methods in the class can access it
     private employees: string[] = []
 
-    constructor(n: string) {
-        this.name = n
+    constructor(private id: string, public name: string) {
+        this.id = id
+        this.name = name
     }
 
     describe(this: Department) {
-        console.log('Department: ' + this.name);
+        console.log(`Deparment (${this.id}): ${this.name}`);
     }
 
     addEmployee(employee: string) {
@@ -22,12 +24,12 @@ class Department {
     }
 }
 
-const accounting = new Department('Accounting')
+const accounting = new Department('d1', 'Accounting')
 
 accounting.addEmployee('Max')
 accounting.addEmployee('Manu')
 
-accounting.employees[2] = 'Anna'
+// accounting.employees[2] = 'Anna'
 
 accounting.describe()
 accounting.printEmployeeInformation()
