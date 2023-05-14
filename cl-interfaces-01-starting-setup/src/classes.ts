@@ -52,10 +52,13 @@ class AccountingDepartment extends Department {
     private lastReport: string
     private static instance: AccountingDepartment
 
+    // * use getter to access private constructor
     static getInstance() {
+        // if instance is already created, just return this instance
         if (AccountingDepartment.instance) {
             return this.instance
         }
+        // else create a new instance of this class
         this.instance = new AccountingDepartment('d2', [])
         return this.instance
     }

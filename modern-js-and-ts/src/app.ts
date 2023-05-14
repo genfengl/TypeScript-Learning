@@ -42,6 +42,7 @@ const person = {
 const copiedPerson = { ...person }
 
 // has to be the same key name as the original object
+//  rename the key with originalKey: newName
 const { firstName: userName, age } = person
 
 //  array.reduce()

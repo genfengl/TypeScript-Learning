@@ -8,7 +8,8 @@ if (typeof userInput === 'string') {
     userName = userInput
 }
 
-function generateError(message: string, code: number) {
+// never type: throw trashes the script, never returns anything
+function generateError(message: string, code: number): never {
     throw {message: message, errorCode: code}
 }
 
