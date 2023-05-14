@@ -54,7 +54,7 @@ class AccountingDepartment extends Department {
   private lastReport: string;
   private static instance: AccountingDepartment;
 
-  // * use getter to access private constructor
+  // * use static getter to access private constructor
   static getInstance() {
     // if instance is already created, just return this instance
     if (AccountingDepartment.instance) {
