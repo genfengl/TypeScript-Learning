@@ -52,7 +52,7 @@ const longerString = longest("alice", "bob");
 // Error! Numbers don't have a 'length' property
 //! const notOK = longest(10, 100);
 
-// Function Overloads
+// Function Overloads (use when expecting different number of arguments?)
 // Define a function `makeDate` with function overloads.
 // Overload 1: Accepts a single parameter `timestamp` of type `number` and returns a `Date` object.
 // Overload 2: Accepts three parameters `m`, `d`, `y`, all of type `number`, and returns a `Date` object.
@@ -77,4 +77,24 @@ const d2 = makeDate(5, 5, 5);
 // No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments.
 //! const d3 = makeDate(1, 3);
 
+// Declaring this in a Function
+const user = {
+  id: 123,
 
+  admin: false,
+  becomeAdmin: function () {
+    this.admin = true;
+  },
+};
+
+interface DB {
+  filterUsers(filter: (this: User) => boolean): User[];
+}
+
+const db = getDB();
+
+const admins = db.filterUsers(function (this: User) {
+  return this.admin;
+});
+// cannot use arrow function if want to use "this"
+const admins = db.filterUsers(() => this.admin);
