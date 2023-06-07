@@ -35,20 +35,51 @@ type WindowStates = "open" | "closed" | "minimised";
 type OddNumberUnderTen = 1 | 3 | 5 | 7 | 9;
 
 // Can be string or an array of strings
-const obj: (string | string[]) = []
+const obj: string | string[] = [];
 
 // Narrowing union types
 if (Array.isArray(obj)) {
-  console.log("obj is an array")
+  console.log("obj is an array");
 } else {
-  console.log(obj)
+  console.log(obj);
 }
 
 // use "?" for optional or maybe null, use "!" for non-null assertion
 
+// "typeof" for narrowing
+function padLeft(padding: number | string, input: string) {
+  if (typeof padding === "number") {
+    return " ".repeat(padding) + input;
+  }
+  return padding + input;
+}
 
+// "in" operator for narrowing
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
 
+function move(animal: Fish | Bird) {
+  // if the key "swim" is in the object animal (returns true), then return animal.swim()
+  if ("swim" in animal) {
+    return animal.swim();
+  }
+  //  else return animal.fly()
+  return animal.fly();
+}
+
+// "instanceof"
+function logValue(x: Date | string) {
+  if (x instanceof Date) {
+    console.log(x.toUTCString());
+  } else {
+    console.log(x.toUpperCase());
+  }
+}
+
+// casting with "as"
+function isFish(pet: Fish | Bird): pet is Fish {
+  return (pet as Fish).swim !== undefined;
+}
 
 // Generics
 // Need to dig deepter
-
