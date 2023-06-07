@@ -45,12 +45,36 @@ function longest<Type extends { length: number }>(a: Type, b: Type) {
     return b; // Otherwise, return `b`.
   }
 }
-
 // `longerArray` is inferred to be of type 'number[]'
 const longerArray = longest([1, 2], [1, 2, 3]);
-
 // `longerString` is inferred to be of type 'alice' | 'bob'
 const longerString = longest("alice", "bob");
-
 // Error! Numbers don't have a 'length' property
 //! const notOK = longest(10, 100);
+
+// Function Overloads
+// Define a function `makeDate` with function overloads.
+// Overload 1: Accepts a single parameter `timestamp` of type `number` and returns a `Date` object.
+// Overload 2: Accepts three parameters `m`, `d`, `y`, all of type `number`, and returns a `Date` object.
+// The actual implementation of the function is the third signature that handles both cases.
+function makeDate(timestamp: number): Date;
+function makeDate(m: number, d: number, y: number): Date;
+function makeDate(mOrTimestamp: number, d?: number, y?: number): Date {
+  // Check if `d` and `y` are provided.
+  if (d !== undefined && y !== undefined) {
+    return new Date(y, mOrTimestamp, d); // Create a `Date` object with year, month, and day.
+  } else {
+    return new Date(mOrTimestamp); // Create a `Date` object with the provided timestamp.
+  }
+}
+
+// Create a `Date` object using the first overload, passing a single `timestamp` parameter.
+const d1 = makeDate(12345678);
+
+// Create a `Date` object using the second overload, passing three parameters: `m`, `d`, `y`.
+const d2 = makeDate(5, 5, 5);
+
+// No overload expects 2 arguments, but overloads do exist that expect either 1 or 3 arguments.
+//! const d3 = makeDate(1, 3);
+
+
