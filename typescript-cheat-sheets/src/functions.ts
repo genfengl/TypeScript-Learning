@@ -14,9 +14,7 @@ function doSomething(fn: DescribableFunction) {
 function myFunc(someArg: number) {
   return someArg > 3;
 }
-
 myFunc.description = "default description"; // Set the `description` property of `myFunc` to "default description"
-
 doSomething(myFunc); // Call `doSomething` with `myFunc` as an argument
 
 // Construct Signatures
@@ -35,3 +33,24 @@ type SomeConstructor = {
 function fn(ctor: SomeConstructor) {
   return new ctor("hello");
 }
+
+// Generic function constraints
+// Define a function `longest` that takes two parameters `a` and `b`.
+// The `Type` generic constraint ensures that `a` and `b` must have a `length` property of type `number`.
+function longest<Type extends { length: number }>(a: Type, b: Type) {
+  // Compare the lengths of `a` and `b`.
+  if (a.length >= b.length) {
+    return a; // If `a` has a longer length or equal length, return `a`.
+  } else {
+    return b; // Otherwise, return `b`.
+  }
+}
+
+// `longerArray` is inferred to be of type 'number[]'
+const longerArray = longest([1, 2], [1, 2, 3]);
+
+// `longerString` is inferred to be of type 'alice' | 'bob'
+const longerString = longest("alice", "bob");
+
+// Error! Numbers don't have a 'length' property
+//! const notOK = longest(10, 100);
