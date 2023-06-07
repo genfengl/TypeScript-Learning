@@ -18,3 +18,20 @@ function myFunc(someArg: number) {
 myFunc.description = "default description"; // Set the `description` property of `myFunc` to "default description"
 
 doSomething(myFunc); // Call `doSomething` with `myFunc` as an argument
+
+// Construct Signatures
+// Define a type SomeObject which represents an object with dynamic key-value pairs
+type SomeObject = { [key: string]: any };
+
+// Define a type SomeConstructor which represents a constructor function
+// A constructor function takes a string argument and constructs (returns) an object of type SomeObject
+type SomeConstructor = {
+  new (s: string): SomeObject; // Construct signature: takes a string argument and constructs (returns) an object of type SomeObject
+};
+
+// Define a function fn that takes a parameter ctor of type SomeConstructor
+// The function creates a new instance of the constructor function by invoking it with the argument "hello"
+// The constructed object is then returned by the function
+function fn(ctor: SomeConstructor) {
+  return new ctor("hello");
+}
