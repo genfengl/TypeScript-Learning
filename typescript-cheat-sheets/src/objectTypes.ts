@@ -57,8 +57,27 @@ interface Apple {
 // Same as '{ contents: Apple }'.
 type AppleBox = Box<Apple>;
 
-
 // Array and ReadonlyArray
-const arr1: string[] = ["hello", "world"]
-const arr2: Array<string> = ["goodbye", "people"]
-const readonlyString: ReadonlyArray<string> = ["readonly"]
+const arr1: string[] = ["hello", "world"];
+const arr2: Array<string> = ["goodbye", "people"];
+const readonlyString: ReadonlyArray<string> = ["readonly"];
+
+// Tuple
+// A tuple type is another sort of Array type that knows exactly how many elements it contains,
+// and exactly which types it contains at specific positions
+function doThisWithTuple(pair: [string, number]) {
+  const a = pair[0];
+  const b = pair[1];
+  // ...
+}
+doThisWithTuple(["hello", 42]);
+
+// Tuple with optional tuple elements
+type Either2dOr3d = [number, number, number?];
+// Tuple with rest parameters
+type StringNumberBooleans = [string, number, ...boolean[]];
+// Tuple with readonly elements
+type ReadonlyTuple = readonly [string, number, boolean?];
+function readonlyTuple(pair: readonly [string, number]) {
+  // ...
+}
