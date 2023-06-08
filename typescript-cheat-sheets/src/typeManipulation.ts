@@ -69,7 +69,74 @@ interface NameLabel {
 
 // The following type declaration defines a conditional type called NameOrId.
 // It takes a type parameter T that extends either number or string.
-
 type NameOrId<T extends number | string> = T extends number
   ? IdLabel // If T extends number, the type NameOrId returns IdLabel interface.
   : NameLabel; // If T extends string, the type NameOrId returns NameLabel interface.
+
+// Mapped Types
+type OptionsFlags<Type> = {
+  [Property in keyof Type]: boolean;
+};
+type Features = {
+  darkMode: () => void;
+  newUserProfile: () => void;
+};
+
+type FeatureOptions = OptionsFlags<Features>;
+// type FeatureOptions = {
+//   darkMode: boolean;
+//   newUserProfile: boolean;
+// }
+
+// Removes 'readonly' attributes from a type's properties
+type CreateMutable<Type> = {
+  -readonly [Property in keyof Type]: Type[Property];
+};
+
+type LockedAccount = {
+  readonly id: string;
+  readonly name: string;
+};
+
+type UnlockedAccount = CreateMutable<LockedAccount>;
+// type UnlockedAccount = {
+//   id: string;
+//   name: string;
+// }
+
+// Removes 'optional' attributes from a type's properties
+type Concrete<Type> = {
+  [Property in keyof Type]-?: Type[Property];
+};
+
+type MaybeUser = {
+  id: string;
+  name?: string;
+  age?: number;
+};
+
+type User3 = Concrete<MaybeUser>;
+// type User3 = {
+//   id: string;
+//   name: string;
+//   age: number;
+// }
+
+type Getters<Type> = {
+  [Property in keyof Type as `get${Capitalize<
+    string & Property
+  >}`]: () => Type[Property];
+};
+
+interface Person {
+  name: string;
+  age: number;
+  location?: string;
+}
+
+type LazyPerson = Getters<Person>;
+// type LazyPerson = {
+//   getName: () => string;
+//   getAge: () => number;
+//   getLocation: () => string;
+// }
