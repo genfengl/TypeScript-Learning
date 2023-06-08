@@ -44,3 +44,21 @@ interface Circle {
 }
 
 type ColorfulCircle = Colorful & Circle;
+
+// Generic Object Types
+interface Box<Type> {
+  contents: Type;
+}
+
+interface Apple {
+  // ....
+}
+
+// Same as '{ contents: Apple }'.
+type AppleBox = Box<Apple>;
+
+
+// Array and ReadonlyArray
+const arr1: string[] = ["hello", "world"]
+const arr2: Array<string> = ["goodbye", "people"]
+const readonlyString: ReadonlyArray<string> = ["readonly"]
