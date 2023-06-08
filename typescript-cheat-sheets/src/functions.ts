@@ -78,7 +78,12 @@ const d2 = makeDate(5, 5, 5);
 //! const d3 = makeDate(1, 3);
 
 // Declaring this in a Function
-const user = {
+interface User {
+  id: number,
+  admin?: boolean
+}
+
+const user1 = {
   id: 123,
 
   admin: false,
@@ -91,10 +96,22 @@ interface DB {
   filterUsers(filter: (this: User) => boolean): User[];
 }
 
+function getDB() {
+  return [1, 2, 3]
+}
+
 const db = getDB();
 
-const admins = db.filterUsers(function (this: User) {
+const admins = db.filter(function (this: User) {
   return this.admin;
 });
 // cannot use arrow function if want to use "this"
-const admins = db.filterUsers(() => this.admin);
+//! const admins = db.filterUsers(() => this.admin);
+
+// Rest Parameters and Arguments
+// ...m: implicityly is any[], instead of any
+function multiply(n: number, ...m: number[]) {
+  return m.map((x) => n * x);
+}
+// 'a' gets value [10, 20, 30, 40]
+const a = multiply(10, 1, 2, 3, 4);
