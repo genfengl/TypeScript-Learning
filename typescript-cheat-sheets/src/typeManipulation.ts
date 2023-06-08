@@ -74,6 +74,11 @@ type NameOrId<T extends number | string> = T extends number
   : NameLabel; // If T extends string, the type NameOrId returns NameLabel interface.
 
 // Mapped Types
+// Syntax
+//* type MappedTypeWithNewProperties<Type> = {
+//*   [Properties in keyof Type as NewKeyType]: Type[Properties]
+//* }
+
 type OptionsFlags<Type> = {
   [Property in keyof Type]: boolean;
 };
@@ -140,3 +145,26 @@ type LazyPerson = Getters<Person>;
 //   getAge: () => number;
 //   getLocation: () => string;
 // }
+
+// Intrinsic String Manipulation Types
+// Uppercase<StringType>
+type Greeting = "Hello, world";
+type ShoutyGreeting = Uppercase<Greeting>;
+// type ShoutyGreeting = "HELLO, WORLD"
+
+type ASCIICacheKey<Str extends string> = `ID-${Uppercase<Str>}`;
+type MainID = ASCIICacheKey<"my_app">;
+// type MainID = "ID-MY_APP"
+
+// Lowercase<StringType>
+type QuietGreeting = Lowercase<Greeting>;
+// type QuietGreeting = "hello, world"
+
+type ASCIICacheKey1<Str extends string> = `id-${Lowercase<Str>}`;
+type MainID1 = ASCIICacheKey<"MY_APP">;
+// type MainID = "id-my_app"
+
+// Capitalize<StringType>
+type LowercaseGreeting = "hello, world";
+type FormalGreeting = Capitalize<LowercaseGreeting>;
+// type FormalGreeting = "Hello, world"
