@@ -131,73 +131,90 @@ function isInteresting(n: number, awesomePhrases: number[]): number {
   return 0;
 }
 
-export const calculate = (sum: string): string|number => {
+export const calculate = (sum: string): string | number => {
   // Parse the string and return the result
-  const validChars = new Set('.0123456789+-*$');
-  const errorMessage = "400: Bad request"
+  const validChars = new Set(".0123456789+-*$");
+  const errorMessage = "400: Bad request";
   if ([...sum].some((char) => !validChars.has(char))) {
-    return errorMessage
+    return errorMessage;
   }
-  
-  function modifyString (str: string): string[] {
-    const res = []
-    let temp = ""
+
+  function modifyString(str: string): string[] {
+    const res = [];
+    let temp = "";
     for (let i = 0; i < str.length; i++) {
-      const char = str[i]
+      const char = str[i];
       if ("+-*$".includes(char)) {
         if (temp) {
-          res.push(temp)
-          temp = ""
-        } 
-        res.push(char)
+          res.push(temp);
+          temp = "";
+        }
+        res.push(char);
       } else {
-        temp += char
+        temp += char;
       }
     }
     if (temp) {
-      res.push(temp)
+      res.push(temp);
     }
-    return res
+    return res;
   }
-  const parsedInput = modifyString(sum)
-  console.log(parsedInput)
-  
-  function evaluateInput (input: string[]) {
-    let temp: string[] = []
-//     calculate * and $ first
+  const parsedInput = modifyString(sum);
+  console.log(parsedInput);
+
+  function evaluateInput(input: string[]) {
+    let temp: string[] = [];
+    //     calculate * and $ first
     for (let i = 0; i < input.length; i++) {
-      const char = input[i]
+      const char = input[i];
       if (char === "*" || char === "$") {
-        let prev = temp.pop()
-        let next = input[i+1]
+        let prev = temp.pop();
+        let next = input[i + 1];
         if (char === "*") {
-          let result = +prev! * +next
-          temp.push(result.toString())
+          let result = +prev! * +next;
+          temp.push(result.toString());
         } else if (char === "$") {
-          let result = +prev! / +next
-          temp.push(result.toString())
+          let result = +prev! / +next;
+          temp.push(result.toString());
         }
-        i++
+        i++;
       } else {
-        temp.push(char)
+        temp.push(char);
       }
     }
-    console.log(temp)
-    let output: number = +temp[0]
+    console.log(temp);
+    let output: number = +temp[0];
     for (let i = 0; i < temp.length; i++) {
-      const char = temp[i]
+      const char = temp[i];
       if (char === "+") {
-        output += +temp[i+1]
-        i++
+        output += +temp[i + 1];
+        i++;
       } else if (char === "-") {
-        output -= +temp[i+1]
-        i++
-      } 
+        output -= +temp[i + 1];
+        i++;
+      }
     }
-    
-    return output
+
+    return output;
   }
-  const answer = evaluateInput(parsedInput)
-  
-  return answer
+  const answer = evaluateInput(parsedInput);
+
+  return answer;
+};
+console.log()
+
+export const calculate1 = (sum: string): number | string => {
+  const invalidChar = /[^0-9$\*\+-\.]/;
+  if(invalidChar.test(sum)) return "400: Bad request";
+  let res =
+      sum.split('+').map(s =>
+          s.split('-').map(s =>
+              s.split('*').map(s =>
+                  s.split('$').map(
+                      Number
+                  ).reduce((a, b) => a / b)
+              ).reduce((a, b) => a * b)
+          ).reduce((a, b) => a - b)
+      ).reduce((a, b) => a + b);
+  return res;
 }
