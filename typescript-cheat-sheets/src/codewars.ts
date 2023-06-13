@@ -130,3 +130,74 @@ function isInteresting(n: number, awesomePhrases: number[]): number {
 
   return 0;
 }
+
+export const calculate = (sum: string): string|number => {
+  // Parse the string and return the result
+  const validChars = new Set('.0123456789+-*$');
+  const errorMessage = "400: Bad request"
+  if ([...sum].some((char) => !validChars.has(char))) {
+    return errorMessage
+  }
+  
+  function modifyString (str: string): string[] {
+    const res = []
+    let temp = ""
+    for (let i = 0; i < str.length; i++) {
+      const char = str[i]
+      if ("+-*$".includes(char)) {
+        if (temp) {
+          res.push(temp)
+          temp = ""
+        } 
+        res.push(char)
+      } else {
+        temp += char
+      }
+    }
+    if (temp) {
+      res.push(temp)
+    }
+    return res
+  }
+  const parsedInput = modifyString(sum)
+  console.log(parsedInput)
+  
+  function evaluateInput (input: string[]) {
+    let temp: string[] = []
+//     calculate * and $ first
+    for (let i = 0; i < input.length; i++) {
+      const char = input[i]
+      if (char === "*" || char === "$") {
+        let prev = temp.pop()
+        let next = input[i+1]
+        if (char === "*") {
+          let result = +prev! * +next
+          temp.push(result.toString())
+        } else if (char === "$") {
+          let result = +prev! / +next
+          temp.push(result.toString())
+        }
+        i++
+      } else {
+        temp.push(char)
+      }
+    }
+    console.log(temp)
+    let output: number = +temp[0]
+    for (let i = 0; i < temp.length; i++) {
+      const char = temp[i]
+      if (char === "+") {
+        output += +temp[i+1]
+        i++
+      } else if (char === "-") {
+        output -= +temp[i+1]
+        i++
+      } 
+    }
+    
+    return output
+  }
+  const answer = evaluateInput(parsedInput)
+  
+  return answer
+}
